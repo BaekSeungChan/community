@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Heading from './components/Heading';
-import List from './components/List';
-import Upload from './components/Upload';
+import List from './components/Post/List';
+import Upload from './components/Post/Upload';
 
 function App() {
   const [ContentList, setContentList] = useState([]); 
