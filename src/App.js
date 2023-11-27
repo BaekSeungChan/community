@@ -4,6 +4,7 @@ import './App.css';
 import Heading from './components/Heading';
 import List from './components/Post/List';
 import Upload from './components/Post/Upload';
+import Detail from './components/Post/Detail';
 
 function App() {
   const [ContentList, setContentList] = useState([]); 
@@ -12,8 +13,9 @@ function App() {
     <>
     <Heading />
     <Routes>
-      <Route path="/list" element={<List ContentList={ContentList} setContentList={setContentList}/>} />
-      <Route path="/upload" element={<Upload ContentList={ContentList} setContentList={setContentList}/>}/>
+      <Route path="/list" element={<List/>} />
+      <Route path="/upload" element={<Upload/>}/>
+      <Route path="/post/:postNum" element={<Detail/>}/>
     </Routes>
     </>
   );
