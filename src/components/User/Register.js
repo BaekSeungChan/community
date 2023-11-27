@@ -38,7 +38,7 @@ const Register = () => {
             setFlag(false);
             if(response.data.success){
                 //회원가입 성공시
-                navigate("/login");
+                navigate(-1);
             } else {
                 //회원가입 실패시
                 return alert("회원가입이 실패하였습니다.")

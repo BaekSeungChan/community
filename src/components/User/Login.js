@@ -1,20 +1,51 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import LoginDiv from '../../Style/UserCSS'
-
+import firebase from '../../firebase';
 
 const Login = () => {
     const [Email, setEmail] = useState("");
     const [PW, setPW] = useState("");
+    const [ErrorMessage, setErrorMessage] = useState("")
 
     let navigate = useNavigate();
+
+    const SingInFunc = async(e) => {
+        e.preventDefault();
+        if(!(Email && PW)) {
+            return alert("모든 값을 채워주세요!")
+        }
+        try{
+            await firebase.auth().signInWithEmailAndPassword(Email, PW)
+            navigate("/")
+        } catch(error) {
+            console.log(error);
+            if(error.code === "auth/invalid-email"){
+                setErrorMessage("존재하지 않는 이메일입니다.")
+            } else if(error.code === "auth/invalid-login-credentials"){
+                setErrorMessage("비밀번호가 일치하지 않습니다.")
+            } else {
+                setErrorMessage("로그인이 실패하였습니다.")
+            }
+        }
+    };
+
+    useEffect(() => {
+        setTimeout(() => {
+            setErrorMessage("")
+        },5000)
+
+    }, [ErrorMessage])
 
   return (
     <LoginDiv>
         <form>
+            <label>이메일</label>
             <input type="email" value={Email} onChange={(e) => setEmail(e.currentTarget.value)}/>
+            <label>비밀번호</label>
             <input type="password" value={PW} onChange={(e) => setPW(e.currentTarget.value)}/>
-            <button>로그인</button>
+            {ErrorMessage != "" && <p>{ErrorMessage}</p>}
+            <button onClick={(e) => SingInFunc(e)}>로그인</button>
             <button onClick={(e) => {
                 e.preventDefault();
                 navigate("/register")
