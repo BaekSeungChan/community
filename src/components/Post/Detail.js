@@ -60,6 +60,9 @@ const Detail = () => {
             <div>
                 <Post>
                     <h1>{PostInfo.title}</h1>
+                    {PostInfo.image ? (
+                        <img src={`http://localhost:3001/${PostInfo.image}`} alt="" style={{width: "400px", height:"auto"}}/>
+                    ) : null}
                     <p>{PostInfo.content}</p>
                 </Post>
                 <BtnDiv>

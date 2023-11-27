@@ -7,6 +7,7 @@ import { UploadDiv, UploadForm, UploadButtonDiv } from '../../Style/UploadCSS';
 const Upload = (props) => {
   const [Title, setTitle] = useState("");
   const [Content, setContent] = useState("");
+  const [Image, setImage] = useState("");
   let navigate = useNavigate();
 
   const onSubmit = (e) => {
@@ -19,6 +20,7 @@ const Upload = (props) => {
     let body = {
       title : Title,
       content : Content, 
+      image: Image
     };
 
     axios.post("/api/post/submit", body).then((response) => {
@@ -46,7 +48,7 @@ const Upload = (props) => {
       onChange={(e) => {
         setTitle(e.currentTarget.value)}}
       />
-      <ImageUpload />
+      <ImageUpload setImage={setImage}/>
       <label htmlFor="content">내용</label>
       <textarea 
       id="content"

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { Form } from "react-bootstrap"
 
-function ImageUpload() {
+function ImageUpload(props) {
     /*
     1. 사용자가 이미지를 업로드
     2. 업로드 한 이미지를 받아서 서버에서 저장
@@ -14,7 +14,9 @@ function ImageUpload() {
         var formData = new FormData();
         formData.append("file", e.target.files[0]);
         // for(const keyValue of formData) console.log(keyValue);
-        axios.post("/api/post/image/upload", formData);
+        axios.post("/api/post/image/upload", formData).then((response) => {
+            props.setImage(response.data.filePath);
+        })
     }
 
   return (
