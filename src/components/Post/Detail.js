@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import axios from 'axios'
+
+import {
+    PostDiv,
+    SpinnerDiv,
+    Post,
+    BtnDiv
+} from "../../Style/PostDetailCSS"
 import { Spinner } from "react-bootstrap"
 
 const Detail = () => {
@@ -24,16 +31,20 @@ const Detail = () => {
         })
     }, []);
 
-    useEffect(() => {
-        console.log(PostInfo);
-    }, [PostInfo])
-
   return (
     <div>
         {Flag ? (
             <div>
-                {PostInfo.title}
-                {PostInfo.content}
+                <Post>
+                    <h1>{PostInfo.title}</h1>
+                    <p>{PostInfo.content}</p>
+                </Post>
+                <BtnDiv>
+                    <Link to={`/edit/${params.postNum}`}>
+                        <button className='edit'>수정</button>
+                    </Link>
+                    <button className='delete'>삭제</button>
+                </BtnDiv>
             </div>
         ): (
             <Spinner animation="border" role="status">
