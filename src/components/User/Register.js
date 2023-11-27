@@ -2,14 +2,20 @@ import React, {useState} from 'react'
 import LoginDiv from '../../Style/UserCSS'
 
 import firebase from '../../firebase';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [Name, setName] = useState("")
     const [Email, setEmail] = useState("")
     const [PW, setPW] = useState("");
     const [PWConfirm, setPWconfirm] = useState("");
+    const [Flag, setFlag] = useState(false);
+
+    let navigate = useNavigate();
 
     const RegisterFunc = async(e) => {
+        setFlag(true);
         e.preventDefault();
         if(!(Name && Email && PWConfirm)){
             return alert("모든 값을 채워주세요!")
@@ -22,7 +28,22 @@ const Register = () => {
             displayName: Name,
         })
 
-        console.log(createUser.user);
+        let body = {
+            email : createUser.user.multiFactor.user.email,
+            displayName : createUser.user.multiFactor.user.displayName,
+            uid : createUser.user.multiFactor.user.uid
+        }
+
+        axios.post("/api/user/register", body).then((response) => {
+            setFlag(false);
+            if(response.data.success){
+                //회원가입 성공시
+                navigate("/login");
+            } else {
+                //회원가입 실패시
+                return alert("회원가입이 실패하였습니다.")
+            }
+        })
     };
 
   return (
@@ -33,10 +54,10 @@ const Register = () => {
             <label>이메일</label>
             <input type="email" onChange={(e) => setEmail(e.currentTarget.value)}/>
             <label>비밀번호</label>
-            <input type="password" onChange={(e) => setPW(e.currentTarget.value)}/>
+            <input type="password" minLength={8} onChange={(e) => setPW(e.currentTarget.value)}/>
             <label>비밀번호확인</label>
-            <input type="password" onChange={(e) => setPWconfirm(e.currentTarget.value)}/>
-            <button onClick={(e) => RegisterFunc(e)}>회원가입</button>
+            <input type="password" minLength={8} onChange={(e) => setPWconfirm(e.currentTarget.value)}/>
+            <button disabled={Flag} onClick={(e) => RegisterFunc(e)}>회원가입</button>
         </form>
 
     </LoginDiv>
