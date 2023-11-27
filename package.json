@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.2",
     "bootstrap": "^5.3.2",
+    "firebase": "^10.6.0",
     "http": "^0.0.1-security",
     "middleware": "^1.0.0",
     "proxy": "^2.1.1",
